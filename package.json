@@ -1,0 +1,51 @@
+{
+  "name": "mailbus",
+  "version": "1.0.0",
+  "description": "NodeJS daemon that triggers actions on emails content regarding their subjects",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "mail",
+    "broker",
+    "queue",
+    "trigger",
+    "bus",
+    "email",
+    "bash",
+    "shell",
+    "script",
+    "action",
+    "message",
+    "subject",
+    "body",
+    "object",
+    "payload",
+    "mailbus",
+    "firefox",
+    "youtube",
+    "bash",
+    "parser",
+    "parsing",
+    "smtp",
+    "plugin"
+  ],
+  "author": "Fabvalaaah",
+  "email": "fabvalaaah@laposte.net",
+  "contributors": [
+    "Fabvalaaah"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabvalaaah/mailbus.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "imap-simple": "^4.3.0",
+    "import-modules": "^1.1.0",
+    "mailparser": "^2.6.0",
+    "shelljs": "^0.8.3",
+    "winston": "^3.2.1"
+  }
+}
