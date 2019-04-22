@@ -98,7 +98,18 @@ const config = {
           let payload = parsed.text.trim();
 
           logger.info(`"${actionName}" action triggered`);
-          actions[actionName].action(payload);
+          let actionInstance = actions[actionName];
+          if (actionInstance) {
+            try {
+              actionInstance.action(payload);
+            } catch (err) {
+              logger.error(
+                `something wrong happened while performing the action\n${err}`
+              );
+            }
+          } else {
+            logger.info(`"${actionName}" not found`);
+          }
         }
       })
       .catch(err => {
