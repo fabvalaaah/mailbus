@@ -2,7 +2,7 @@
   "imap": {
     "user": "<REPLACE WITH THE EMAIL ADDRESS>",
     "password": "<REPLACE WITH THE EMAIL PASSWORD>",
-    "host": "<REPLACE WITH THE EMAIL IMAP SERVER ADDRESS>",
+    "host": "<REPLACE WITH THE EMAIL IMAP SERVER URL>",
     "port": 993,
     "tls": true,
     "connTimeout": 20000,
