@@ -81,7 +81,7 @@ const config = {
 
     let fetchOptions = {
       bodies: [""],
-      markSeen: true
+      markSeen: false
     };
 
     connection
@@ -102,6 +102,7 @@ const config = {
           if (actionInstance) {
             try {
               actionInstance.action(payload);
+              connection.addFlags(email.attributes.uid, ["\\Seen"]);
             } catch (err) {
               logger.error(
                 `something wrong happened while performing the action\n${err}`
