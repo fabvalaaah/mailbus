@@ -121,12 +121,22 @@ const config = {
         for (let i = 0; i < emails.length; i++) {
           // Parsing current unseen email
           const email = emails[i];
-          const parsed = await simpleMailParser(email.parts[0].body);
+          let parsed;
+          try {
+            parsed = await simpleMailParser(email.parts[0].body);
+          } catch (err) {
+            logger.error(
+              `failed to parse the email with UID "${
+                email.attributes.uid
+              }"\n${err}`
+            );
+            continue;
+          }
           const actionName = parsed.subject.trim().toLowerCase();
           const payload = parsed.text.trim();
 
-          logger.info(`"${actionName}" action triggered`);
           // Getting the corresponding action name regarding the email subject
+          logger.info(`"${actionName}" action triggered`);
           const actionInstance = actions[actionName];
           if (!actionInstance) {
             logger.info(`action "${actionName}" not found`);
@@ -156,7 +166,11 @@ const config = {
           try {
             await markEmailAsSeenByUID(email.attributes.uid);
           } catch (err) {
-            logger.error(`failed to mark the email as seen\n${err}`);
+            logger.error(
+              `failed to mark the email with UID ${
+                email.attributes.uid
+              } as seen\n${err}`
+            );
             continue;
           }
 
