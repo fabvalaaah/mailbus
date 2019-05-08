@@ -66,7 +66,42 @@ const simpleMailParser = require("mailparser").simpleParser;
 const importModules = require("import-modules");
 const actions = importModules("./actions");
 
+const fetchOptions = {
+  bodies: [""],
+  markSeen: false
+};
+
 let connection;
+
+const compareEmails = (email1, email2) => {
+  if (email1.attributes.date === email2.attributes.date) {
+    return 0;
+  }
+
+  return email1.attributes.date < email2.attributes.date ? -1 : 1;
+};
+
+const fetchUnseenEmails = () => connection.search(["UNSEEN"], fetchOptions);
+
+const getEmailByUID = uid => connection.search([["UID", uid]], fetchOptions);
+
+const isEmailSeenByUID = uid =>
+  getEmailByUID(uid).then(email => {
+    if (email[0]) {
+      let seen = false;
+      email[0].attributes.flags.map(flag => {
+        if (flag.toUpperCase() === "\\SEEN") {
+          seen = true;
+        }
+      });
+
+      return seen;
+    }
+
+    Promise.reject();
+  });
+
+const markEmailAsSeenByUID = uid => connection.addFlags(uid, ["\\SEEN"]);
 
 const config = {
   ...require("./config.json"),
@@ -77,50 +112,64 @@ const config = {
     logger.info("closed");
   },
   onmail: () => {
-    let searchCriteria = ["UNSEEN"];
-
-    let fetchOptions = {
-      bodies: [""],
-      markSeen: false
-    };
-
-    connection
-      .search(searchCriteria, fetchOptions)
+    fetchUnseenEmails()
       .then(async emails => {
-        // No 'map' usage cause order matters
-        // (forEach suffers of low performances BTW)
-        for (let i = 0; i < emails.length; i++) {
-          let email = emails[i];
+        // Sorting unseen emails to process them chronologically (just to make sure)
+        emails.sort(compareEmails);
 
-          // No promise usage to ensure the sequential execution
-          let parsed = await simpleMailParser(email.parts[0].body);
-          let actionName = parsed.subject.trim().toLowerCase();
-          let payload = parsed.text.trim();
+        // Iterating through unseen emails
+        for (let i = 0; i < emails.length; i++) {
+          // Parsing current unseen email
+          const email = emails[i];
+          const parsed = await simpleMailParser(email.parts[0].body);
+          const actionName = parsed.subject.trim().toLowerCase();
+          const payload = parsed.text.trim();
 
           logger.info(`"${actionName}" action triggered`);
-          let actionInstance = actions[actionName];
-          if (actionInstance) {
-            try {
-              actionInstance.action(payload);
-              connection
-                .addFlags(email.attributes.uid, ["\\Seen"])
-                .catch(err => {
-                  logger.error(
-                    `something wrong happened while marking the email as \"read\"\n${err}`
-                  );
-                });
-            } catch (err) {
-              logger.error(
-                `something wrong happened while performing the action\n${err}`
-              );
-            }
-          } else {
-            logger.info(`"${actionName}" not found`);
+          // Getting the corresponding action name regarding the email subject
+          const actionInstance = actions[actionName];
+          if (!actionInstance) {
+            logger.info(`action "${actionName}" not found`);
+            continue;
+          }
+
+          // Checking if the email is still unseen (it could have been processed
+          // by another mailbus instance at this point)
+          let isSeen;
+          try {
+            isSeen = await isEmailSeenByUID(email.attributes.uid);
+          } catch (err) {
+            logger.error(
+              `failed to get the email with UID "${
+                email.attributes.uid
+              }"\n${err}`
+            );
+            continue;
+          }
+          if (isSeen) {
+            logger.info(`action "${actionName}" already performed`);
+            continue;
+          }
+
+          // Marking the email as seen to prevent it to be processed by another
+          // mailbus instance
+          try {
+            await markEmailAsSeenByUID(email.attributes.uid);
+          } catch (err) {
+            logger.error(`failed to mark the email as seen\n${err}`);
+            continue;
+          }
+
+          // Performing the actual action
+          try {
+            actionInstance.action(payload);
+          } catch (err) {
+            logger.error(`failed to perform the action ${actionName}\n${err}`);
           }
         }
       })
       .catch(err => {
-        logger.error(`failed to fetch unread emails\n${err}`);
+        logger.error(`failed to fetch unseen emails\n${err}`);
       });
   }
 };

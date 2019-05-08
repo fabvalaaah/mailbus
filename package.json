@@ -4,7 +4,8 @@
   "description": "NodeJS daemon that triggers actions on emails content regarding their subjects",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "preinstall": "npm i -g pm2",
+    "start": "pm2 start app.js"
   },
   "keywords": [
     "mail",
