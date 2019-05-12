@@ -19,6 +19,7 @@
     "script",
     "action",
     "message",
+    "messages",
     "messaging",
     "subject",
     "body",
@@ -30,7 +31,13 @@
     "parser",
     "parsing",
     "smtp",
-    "plugin"
+    "plugin",
+    "plugins",
+    "event",
+    "events",
+    "raspberry",
+    "rpi",
+    "raspberrypi"
   ],
   "author": "Fabvalaaah",
   "email": "fabvalaaah@laposte.net",
