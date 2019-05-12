@@ -1,7 +1,7 @@
 # MailBus
 
 MailBus is a daemon that triggers actions on emails content regarding
-their subjects.
+their subjects. It's basically an event broker over an email box.
 
 This NodeJS project has been developed and tested on the following environment:
 - Lubuntu Linux 18.04.2 LTS (Bionic Beaver) x64
