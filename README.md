@@ -21,7 +21,7 @@ it is left as is (nothing is done and the email is not tagged as read).
 Using an email box as a message/event broker or a queue is not that natural but provides
 some interesting benefits:
 - It does not need any particular installation, configuration or maintenance,
-  fully relieving on the email provider and the SMTP protocol.
+  fully relieving on the email provider and the IMAP protocol.
 - It just comes in addition of a traditional usage of an email box.
 - It keeps the history of messages.
 - Even if MailBus has been thought with one instance per email box in mind to ensure the actions to be executed sequentially, it can be scaled by adding several instances on a single email box. As a consequence in this situation, actions may not be performed in a chronological order. However, there is no load-balancing mechanism (just a first-come first-served mechanism).
