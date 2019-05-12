@@ -50,7 +50,7 @@ MailBus better works with PM2 (http://pm2.keymetrics.io/) to manage restarts at 
 
 ## The basic YouTube use case
 
-So, here's the basic story that brought this up: I'm watching an interesting documentary on YouTube with my Android smartphone while doing the dishes. Then I have to go to bed so I now want to quickly and easily share this video with the Raspberry Pi running a MailBus daemon connected to my very old 720p flatpanel TV of my bedroom. I just have to use the "share by email" option of the YouTube Android app, changing its default email subject by `youtube`. Few seconds later, this video is automatically opened (and paused) in fullscreen by MailBus on my TV.
+So, here's the basic story that brought this up: I'm watching an interesting documentary on YouTube with my Android smartphone while doing the dishes. Then I have to go to bed so I now want to quickly and easily share this video with the Raspberry Pi (running a MailBus daemon) connected to my very old 720p flatpanel TV of my bedroom. I just have to use the "share by email" option of the YouTube Android app, changing its default email subject by `youtube`. Few seconds later, this video is automatically opened (and paused) in fullscreen by MailBus on my TV.
 
 ## DONATION
 
