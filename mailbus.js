@@ -49,6 +49,12 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 const logger = createLogger({
   format: combine(label({ label: "mailbus" }), timestamp(), myFormat),
   transports: [
+    new transports.Console({
+      level: "info"
+    }),
+    new transports.Console({
+      level: "error"
+    }),
     new transports.File({
       filename: "./logs/info.log",
       level: "info"
