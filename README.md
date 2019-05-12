@@ -4,7 +4,6 @@ MailBus is a daemon that triggers actions on emails content regarding
 their subjects.
 
 This NodeJS project has been developed and tested on the following environment:
-
 - Lubuntu Linux 18.04.2 LTS (Bionic Beaver) x64
 - NPM 6.4.1
 - NodeJS v10.15.3 (managed with NVM)
@@ -21,15 +20,13 @@ it is left as is (nothing is done and the email is not tagged as read).
 
 Using an email box as a message/event broker or a queue is not that natural but provides
 some interesting benefits:
-
 - It does not need any particular installation, configuration or maintenance,
   fully relieving on the email provider and the SMTP protocol.
 - It just comes in addition of a traditional usage of an email box.
 - It keeps the history of messages.
-- Even if MailBus has been though with one instance per email box in mind to ensure the actions to be executed sequentially, it can be scaled by adding several instances on a single email box. As a consequence in this situation, actions may not be performed in a chronological order. However, there is no load-balancing mechanism (just a first-come first-served mechanism).
+- Even if MailBus has been thought with one instance per email box in mind to ensure the actions to be executed sequentially, it can be scaled by adding several instances on a single email box. As a consequence in this situation, actions may not be performed in a chronological order. However, there is no load-balancing mechanism (just a first-come first-served mechanism).
 
 Using an email box also brings downsides:
-
 - Event processing can not be considered as "real-time" because of the delay that can exist between the email sending and its reception/processing (in most cases, it's around few seconds but this time is not garanteed and can sometimes be longer than minutes).
 - You may expect issues with some email providers. In particular, it must support long term connections ("keepalive" and "noop" usage must be configured in the "config.json" file).
 
@@ -45,7 +42,6 @@ Changes in the configuration and in the "actions" folder will only be considered
 ## Usage
 
 MailBus better works with PM2 (http://pm2.keymetrics.io/) to manage restarts at connexion failures and for its great monitoring features as well. That's the reason why "pm2" is automatically installed globally when running `npm i` (thanks to the "preinstall" script of "package.json"). Then, launching and keeping an eye on MailBus becomes easy:
-
 - Simply execute `npm start` in a console opened in the root directory of the project to run the daemon.
 - Execute `pm2 monit` to monitor the pm2 wrapped NodeJS application.
 - Execute `pm2 list` to list running pm2 wrapped NodeJS application and get the ID of MailBus.
