@@ -5,10 +5,10 @@
     "host": "<REPLACE WITH THE EMAIL IMAP SERVER URL>",
     "port": 993,
     "tls": true,
-    "connTimeout": 20000,
-    "authTimeout": 10000,
+    "connTimeout": 10000,
+    "authTimeout": 5000,
     "keepalive": {
-      "interval": 10000,
+      "interval": 20000,
       "idleInterval": 300000,
       "forceNoop": true
     }
