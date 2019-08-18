@@ -52,7 +52,7 @@
   "dependencies": {
     "imap-simple": "^4.3.0",
     "import-modules": "^1.1.0",
-    "mailparser": "^2.6.0",
+    "mailparser": "^2.7.1",
     "shelljs": "^0.8.3",
     "winston": "^3.2.1"
   }
