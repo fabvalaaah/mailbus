@@ -1,6 +1,6 @@
 # MailBus
 
-MailBus is a daemon that triggers actions on emails content regarding
+MailBus is a daemon that triggers actions from emails content regarding
 their subjects. It's basically an event broker over an email box.
 
 This NodeJS project has been developed and tested on the following environment:
@@ -46,7 +46,7 @@ MailBus better works with PM2 (http://pm2.keymetrics.io/) to manage restarts at 
 - Execute `pm2 monit` to monitor the pm2 wrapped NodeJS application.
 - Execute `pm2 list` to list running pm2 wrapped NodeJS application and get the ID of MailBus.
 - Execute `pm2 stop <the ID of MailBus>` to stop the daemon.
-- If you want to make sure everything is running OK, just send an email to the one MailBus is listening to. This email subject must be `test` and its body can be `Hello world!` (or whatever you want). Then you will see the "test" action (with the payload) has been processed in the "logs/info.log" file.
+- If you want to make sure everything is running OK, just send an email to the email box MailBus is listening to. This email subject must be `test` and its body can be `Hello world!` (or whatever you want). Then you will see the "test" action (with the payload) has been processed in the "logs/info.log" file.
 
 ## The basic YouTube use case
 
