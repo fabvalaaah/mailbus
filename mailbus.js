@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (c) 2019 Fabvalaaah - fabvalaaah@laposte.net
@@ -20,22 +20,12 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- * DONATION:
- * As I share these sources for commercial use too, maybe you could consider
- * sending me a reward (even a tiny one) to my Ethereum wallet at the address
- * 0x1fEaa1E88203cc13ffE9BAe434385350bBf10868
- * If so, I would be forever grateful to you and motivated to keep up the good
- * work for sure :oD Thanks in advance !
- *
- * FEEDBACK:
- * You like my work? It helps you? You plan to use/reuse/transform it? You have
- * suggestions or questions about it? Just want to say "hi"? Let me know your
- * feedbacks by mail to the address fabvalaaah@laposte.net
- *
+ */
+
+/**
  * DISCLAIMER:
- * I am not responsible in any way of any consequence of the usage
- * of this piece of software. You are warned, use it at your own risks.
+ * I am not responsible in any way of any consequence of the usage of this piece
+ * of software. You are warned, use it at your own risks.
  */
 
 // Logger init
@@ -50,20 +40,20 @@ const logger = createLogger({
   format: combine(label({ label: "mailbus" }), timestamp(), myFormat),
   transports: [
     new transports.Console({
-      level: "info"
+      level: "info",
     }),
     new transports.Console({
-      level: "error"
+      level: "error",
     }),
     new transports.File({
       filename: "./logs/info.log",
-      level: "info"
+      level: "info",
     }),
     new transports.File({
       filename: "./logs/error.log",
-      level: "error"
-    })
-  ]
+      level: "error",
+    }),
+  ],
 });
 // -------
 
@@ -74,7 +64,7 @@ const actions = importModules("./actions");
 
 const fetchOptions = {
   bodies: [""],
-  markSeen: false
+  markSeen: false,
 };
 
 let connection;
@@ -89,13 +79,13 @@ const compareEmails = (email1, email2) => {
 
 const fetchUnseenEmails = () => connection.search(["UNSEEN"], fetchOptions);
 
-const getEmailByUID = uid => connection.search([["UID", uid]], fetchOptions);
+const getEmailByUID = (uid) => connection.search([["UID", uid]], fetchOptions);
 
-const isEmailSeenByUID = uid =>
-  getEmailByUID(uid).then(email => {
+const isEmailSeenByUID = (uid) =>
+  getEmailByUID(uid).then((email) => {
     if (email[0]) {
       let seen = false;
-      email[0].attributes.flags.map(flag => {
+      email[0].attributes.flags.map((flag) => {
         if (flag.toUpperCase() === "\\SEEN") {
           seen = true;
         }
@@ -107,7 +97,7 @@ const isEmailSeenByUID = uid =>
     Promise.reject();
   });
 
-const markEmailAsSeenByUID = uid => connection.addFlags(uid, ["\\SEEN"]);
+const markEmailAsSeenByUID = (uid) => connection.addFlags(uid, ["\\SEEN"]);
 
 const config = {
   ...require("./config.json"),
@@ -119,7 +109,7 @@ const config = {
   },
   onmail: () => {
     fetchUnseenEmails()
-      .then(async emails => {
+      .then(async (emails) => {
         // Sorting unseen emails to process them chronologically (just to make sure)
         emails.sort(compareEmails);
 
@@ -132,9 +122,7 @@ const config = {
             parsed = await simpleMailParser(email.parts[0].body);
           } catch (err) {
             logger.error(
-              `failed to parse the email with UID "${
-                email.attributes.uid
-              }"\n${err}`
+              `failed to parse the email with UID "${email.attributes.uid}"\n${err}`
             );
             continue;
           }
@@ -156,9 +144,7 @@ const config = {
             isSeen = await isEmailSeenByUID(email.attributes.uid);
           } catch (err) {
             logger.error(
-              `failed to get the email with UID "${
-                email.attributes.uid
-              }"\n${err}`
+              `failed to get the email with UID "${email.attributes.uid}"\n${err}`
             );
             continue;
           }
@@ -173,9 +159,7 @@ const config = {
             await markEmailAsSeenByUID(email.attributes.uid);
           } catch (err) {
             logger.error(
-              `failed to mark the email with UID ${
-                email.attributes.uid
-              } as seen\n${err}`
+              `failed to mark the email with UID ${email.attributes.uid} as seen\n${err}`
             );
             continue;
           }
@@ -188,13 +172,13 @@ const config = {
           }
         }
       })
-      .catch(err => {
+      .catch((err) => {
         logger.error(`failed to fetch unseen emails\n${err}`);
       });
-  }
+  },
 };
 
-simpleImap.connect(config).then(conn => {
+simpleImap.connect(config).then((conn) => {
   connection = conn;
   connection.openBox("INBOX");
   logger.info("started");
