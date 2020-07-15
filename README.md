@@ -3,7 +3,7 @@
 Node.js event broker over an email box.
 
 **This piece of software is a proof of concept.**<br/><br/>
-Its main purpose is to demonstrate the possible usage of an email box to store event messages chronologically and to automatically execute related actions locally on a device running a MailBus daemon instance listening to this email box.
+Its main purpose is to demonstrate the possible usage of an email box to store event messages chronologically and to automatically execute related actions locally on a device running a MailBus daemon instance listening to this email box and consuming event emails.
 
 Correspondences:
 
@@ -30,8 +30,8 @@ MailBus works with PM2 to manage connection failures and for monitoring features
 
 - Start MailBus daemon ⇨ `npm start`
 - Stop MailBus daemon ⇨ `npm stop`
-- Get the monitoring ⇨ `pm2 monit`
 - Get logs ⇨ `pm2 logs mailbus`
+- Get the monitoring ⇨ `pm2 monit`
 - Get the list of instances ⇨ `pm2 list`
 - Empty the list of instances ⇨ `pm2 delete mailbus`
 
