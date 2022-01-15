@@ -37,7 +37,7 @@
     "imap-simple": "5.0.0",
     "import-modules": "2.0.0",
     "mailparser": "2.7.7",
-    "shelljs": "0.8.4",
+    "shelljs": "0.8.5",
     "winston": "3.3.3"
   }
 }
