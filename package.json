@@ -1,6 +1,6 @@
 {
   "name": "mailbus",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Node.js event broker over an email box",
   "main": "mailbus.js",
   "scripts": {
@@ -34,10 +34,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "imap-simple": "5.0.0",
-    "import-modules": "2.0.0",
-    "mailparser": "2.7.7",
-    "shelljs": "0.8.4",
-    "winston": "3.3.3"
+    "imap-simple": "5.1.0",
+    "import-modules": "2.1.0",
+    "mailparser": "3.4.0",
+    "shelljs": "0.8.5",
+    "winston": "3.6.0"
   }
 }
